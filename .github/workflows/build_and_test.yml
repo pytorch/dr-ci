@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     strategy:
+      # - STACK_YAML=app/stack.yaml
       matrix:
         os: [ubuntu-latest, macOS-latest]
         # use this to include any dependencies from OS package managers
@@ -25,7 +26,8 @@ jobs:
       run: brew install haskell-stack
     - name: Build
       run: |
-       # stack setup --no-terminal
+       set-env STACK_YAML=app/stack.yaml
+       stack setup --no-terminal
        stack build -j2 --fast --no-terminal
     - name: Test
       run: stack test --fast --no-terminal
