@@ -23,7 +23,9 @@ jobs:
         stack-no-global: true
         stack-version: latest
     - if:  matrix.os  == 'macos-latest'
-      run: brew install llvm
+      run: |
+        brew install llvm
+        echo "::add-path::/usr/local/opt/llvm/bin"
 
     # Restore timestamps to help stack not rebuild unchanged files.
     # https://stackoverflow.com/questions/60906336
