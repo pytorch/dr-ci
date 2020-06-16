@@ -1,4 +1,8 @@
 #!/bin/bash -xe
+# Copyright (c) Facebook, Inc. and its affiliates.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
 
 REPO_ROOT_DIR=..
 CREDENTIALS_DIR=$REPO_ROOT_DIR/../circleci-failure-tracker-credentials

@@ -1,9 +1,8 @@
-#!/bin/bash -xe
+#!/usr/bin/env bash
 # Copyright (c) Facebook, Inc. and its affiliates.
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
-#!/usr/bin/env bash
 
 # Use this one-liner to produce a JSON literal from the Git log.
 # Adapted from: https://gist.github.com/textarcana/1306223
@@ -21,4 +20,3 @@ git log \
     perl -pe 'BEGIN{print "["}; END{print "]\n"}' | \
     perl -pe 's/},]/}]/' | \
     sed 's/"/\\"/g' | sed "s/\\$DELIM/\"/g"
-

@@ -1,4 +1,8 @@
 #!/bin/bash -xe
+# Copyright (c) Facebook, Inc. and its affiliates.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
 
 ZIP_FILENAME=function-$(date --iso-8601=seconds).zip
 
@@ -14,4 +18,3 @@ zip $ZIP_FILENAME bootstrap && rm bootstrap
 aws s3 cp $ZIP_FILENAME s3://drci-lambda-artifacts
 
 popd
-
