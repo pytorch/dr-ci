@@ -22,6 +22,8 @@ jobs:
         enable-stack: true
         stack-no-global: true
         stack-version: latest
+    - if:  matrix.os  == 'macos-latest'
+      run: brew install llvm
 
     # Restore timestamps to help stack not rebuild unchanged files.
     # https://stackoverflow.com/questions/60906336
