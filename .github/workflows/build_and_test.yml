@@ -1,4 +1,4 @@
-name: Build and test
+name: Build and Test
 
 on:
   push:
@@ -22,10 +22,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup stack
-      uses: mstksg/setup-stack@v2
+    - if:  matrix.os  == 'macos-latest'
+      run: brew install haskell-stack
     - name: Build
       run: |
-       stack setup --no-terminal
+       # stack setup --no-terminal
        stack build -j2 --fast --no-terminal
     - name: Test
       run: stack test --fast --no-terminal
