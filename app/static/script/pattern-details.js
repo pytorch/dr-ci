@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 function gen_step_failures_chart(container_id, pattern_id, source) {
 
    $.getJSON('/api/pattern-' + source + '-occurrences', {"pattern_id": pattern_id}, function (data) {

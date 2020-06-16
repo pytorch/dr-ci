@@ -1,4 +1,9 @@
 #!/bin/bash -xe
+# Copyright (c) Facebook, Inc. and its affiliates.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
 
 PR_COMMIT_SHA1=8268a8b0ef46743e471d4abe01de40469a262c2b
 MASTER_COMMIT_SHA1=b37080d97a2188b4e6cf78b255c9399e123994a2

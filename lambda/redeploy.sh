@@ -1,4 +1,9 @@
 #!/bin/bash -xe
+# Copyright (c) Facebook, Inc. and its affiliates.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
 
 # Prerequsistes:
 # Install the "sam" tool from AWS:
@@ -16,4 +21,3 @@ sam build
 sam package --output-template packaged.yaml --s3-bucket drci-lambda-artifacts
 
 sam deploy --template-file packaged.yaml --region us-east-2 --capabilities CAPABILITY_IAM --stack-name aws-sam-getting-started
-

@@ -1,3 +1,8 @@
+-- Copyright (c) Facebook, Inc. and its affiliates.
+--
+-- This source code is licensed under the MIT license found in the
+-- LICENSE file in the root directory of this source tree.
+
 --
 -- PostgreSQL database dump
 --
@@ -65,7 +70,7 @@ CREATE FUNCTION public.insert_derived_github_status_event_columns() RETURNS trig
     AS $$BEGIN
   INSERT INTO github_incoming_status_events_derived_circleci_columns(event_id, job_name_extracted, build_number_extracted, event_sha1, event_state, event_created_at)
   VALUES(NEW.id,"substring"(NEW.context, 14), split_part("substring"(NEW.target_url, 41), '?'::text, 1)::integer, NEW.sha1, NEW.state, NEW.created_at);
-  
+
   RETURN NULL;
 END;$$;
 
@@ -78,7 +83,7 @@ ALTER FUNCTION public.insert_derived_github_status_event_columns() OWNER TO post
 
 CREATE FUNCTION public.snapshot_master_viable_commit_age() RETURNS void
     LANGUAGE sql
-    AS $$INSERT INTO viable_master_commit_age_history 
+    AS $$INSERT INTO viable_master_commit_age_history
 SELECT CURRENT_TIMESTAMP AS inserted_at,
 failed_required_job_count_threshold, unbuilt_or_failed_required_job_count, commit_id, age_hours, disqualifying_jobs_array,
 (SELECT MAX(commit_number) FROM master_commits_contiguously_indexed)  - master_commits_contiguously_indexed.commit_number AS commit_count_behind
@@ -1213,7 +1218,7 @@ ALTER TABLE public.universal_builds OWNER TO postgres;
 
 COMMENT ON TABLE public.universal_builds IS 'NOTE: We intentionally DO NOT place a uniqueness constraint on the "provider_build_surrogate" column, even though this column is presumed to be unique.
 
-This is because the more important uniqueness constraint is "universal_builds_provider_build_namespace_x_job_name_commit_key", conflicts of which are handled in the one and only INSERT statement on the backend.  
+This is because the more important uniqueness constraint is "universal_builds_provider_build_namespace_x_job_name_commit_key", conflicts of which are handled in the one and only INSERT statement on the backend.
 
 NOTE: These records are stored even if the build succeeds.
 
@@ -9584,4 +9589,3 @@ ALTER DEFAULT PRIVILEGES FOR ROLE materialized_view_updater IN SCHEMA public GRA
 --
 -- PostgreSQL database dump complete
 --
-

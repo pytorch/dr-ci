@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+
 
 """
 Obtains credentials and passes them as CLI args to stack invocation
@@ -136,5 +141,3 @@ if __name__ == "__main__":
             command_string = " ".join(cli_args)
             print("Executing command:", command_string)
             subprocess.check_call(cli_args, cwd="app")
-
-
