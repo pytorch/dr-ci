@@ -18,4 +18,4 @@ Each line of the console log for a failed CircleCI build is individually scanned
 
 
 
-All new builds going forward will now be scanned for this pattern.  Old build logs are **not** scanned retroactively for new patterns ([yet](https://github.com/kostmo/circleci-failure-tracker/issues/12)), but individual builds **can** be rescanned **on demand** after new patterns are created.
+All new builds going forward will now be scanned for this pattern.  Old build logs are **not** scanned retroactively for new patterns ([yet](https://github.com/pytorch/dr-ci/issues/12)), but individual builds **can** be rescanned **on demand** after new patterns are created.

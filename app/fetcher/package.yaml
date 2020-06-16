@@ -1,7 +1,7 @@
 name: fetcher
 version: '0.1.0.0'
-author: Karl Ostmo
-maintainer: kostmo@gmail.com
+author: Facebook
+maintainer: opensource@fb.com
 license: BSD3
 dependencies:
 - base
@@ -47,7 +47,7 @@ library:
     - network-uri
     - github
     - regex-compat
-    - MissingH 
+    - MissingH
     - shake
     - clock
     - formatting
@@ -84,7 +84,7 @@ executables:
     - -with-rtsopts=-N4
     dependencies:
     - fetcher
-    - optparse-applicative      
+    - optparse-applicative
     - text
     - transformers
     - bytestring

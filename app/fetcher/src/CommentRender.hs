@@ -51,7 +51,7 @@ xlaContacts = [
 
 
 drCiGitHubRepoBase :: Text
-drCiGitHubRepoBase = "https://github.com/kostmo/circleci-failure-tracker"
+drCiGitHubRepoBase = "https://github.com/pytorch/dr-ci"
 
 
 drCiIssueTrackerUrl :: Text

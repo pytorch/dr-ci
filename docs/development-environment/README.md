@@ -83,11 +83,11 @@ The whole process will take 5-10 minutes with a high-speed internet connection.
 After deplyment has completed, one should peruse the latest posted PR comments, viewable from this page:
 https://dr.pytorch.org/admin/comment-postings.html
 
-Not long after the deployment, new comments should be present that are less than a few minutes old.  Also monitor the performance over the following few hours if any significant backend changes (or query formulations) are changed: https://github.com/kostmo/circleci-failure-tracker/tree/master/docs/operation#monitoring-performance
+Not long after the deployment, new comments should be present that are less than a few minutes old.  Also monitor the performance over the following few hours if any significant backend changes (or query formulations) are changed: https://github.com/pytorch/dr-ci/tree/master/docs/operation#monitoring-performance
 
 If the formatting/wording of the posted PR comments has changed, click through to verify that the comment as it appears on the PR is as expected.
 
-Also, monitor the [backend performance metrics](https://github.com/kostmo/circleci-failure-tracker/tree/master/docs/operation#monitoring-performance).
+Also, monitor the [backend performance metrics](https://github.com/pytorch/dr-ci/tree/master/docs/operation#monitoring-performance).
 
 To obtain console logs for the (4) Elastic Beanstalk workers without having to go through the AWS website, run the `tools/log-analysis/fetch_eb_worker_logs.py` script, which place one log file for each worker into the current directory.
 

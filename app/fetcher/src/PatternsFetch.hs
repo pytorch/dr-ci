@@ -30,6 +30,6 @@ populatePatterns = runExceptT $ do
   ExceptT $ restore_patterns decoded_json
 
   where
-    url_string = "https://raw.githubusercontent.com/kostmo/circleci-failure-tracker/master/data/patterns-dump.json"
+    url_string = "https://raw.githubusercontent.com/pytorch/dr-ci/master/data/patterns-dump.json"
 
     restore_patterns = fmap (first T.unpack) . SqlWrite.restorePatterns
