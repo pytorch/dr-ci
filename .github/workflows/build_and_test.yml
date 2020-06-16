@@ -21,7 +21,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - name: Setup stack
     - if:  matrix.os  == 'macos-latest'
       run: brew install haskell-stack
     - name: Build
