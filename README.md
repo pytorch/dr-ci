@@ -1,4 +1,4 @@
-- [![TravisCI Build Status](https://travis-ci.com/kostmo/circleci-failure-tracker.svg?branch=master)](https://travis-ci.com/kostmo/circleci-failure-tracker)
+[![CI](https://github.com/pytorch/dr-ci/workflows/CI/badge.svg)](https://github.com/pytorch/dr-ci/actions?query=branch%3Amaster)
 
 # A log analyzer for CircleCI
 
