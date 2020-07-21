@@ -64,7 +64,7 @@ dependency (i.e. a new Haskell package or package version) is introduced.
 - Install Elastic Beanstalk (`eb`) CLI tool: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html
 - Install [docker](https://docs.docker.com/get-docker/).
   - If running on MacOS, you will need to [provide more RAM to the container](https://docs.docker.com/docker-for-mac/#resources) (tested with 8GB).
-- Run `eb init` and provide it with your IAM access key and secret for the deployed organization (e.g. caffe2).
+- Run `eb init` and provide it with your IAM access key and secret for the deployed organization (e.g. `fbossci`).
 - Ensure your Docker Hub account has permission to push the docker image.
 
 ### Deployment
@@ -91,7 +91,7 @@ Also, monitor the [backend performance metrics](https://github.com/pytorch/dr-ci
 
 To obtain console logs for the (4) Elastic Beanstalk workers without having to go through the AWS website, run the `tools/log-analysis/fetch_eb_worker_logs.py` script, which place one log file for each worker into the current directory.
 
-The caffe2 org frontend deployment logs can be found at https://fburl.com/s3v2tm13.
+The `fbossci` org frontend deployment logs can be found at https://fburl.com/s3v2tm13.
 
 ### Website sanity check
 
@@ -101,7 +101,7 @@ It's important to do "hard browser refreshes" when verifying deployed changes to
 
 ### Continuous integration
 
-TravisCI is set up to automatically verify that each push to GitHub can successfully compile.  Note that if one force-pushes to the repo shortly after a previous push, TravisCI may report failure on the overwritten commit.
+GitHub Actions is set up to automatically verify that each push to GitHub can successfully compile.
 
 Certain individual functions can be tested in isolation via the `./test-oneoff.sh` script inside the `app` directory.
 
