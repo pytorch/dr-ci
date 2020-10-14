@@ -85,6 +85,8 @@ import qualified StatusUpdateTypes
 import qualified UnmatchedBuilds
 import qualified Webhooks
 
+isPostingEnabledGlobally :: Bool
+isPostingEnabledGlobally = False
 
 -- | 2 minutes
 statementTimeoutSeconds :: Integer
@@ -849,17 +851,21 @@ wipeCommentForUpdatedPr
     pr_number
     new_pr_head_commit@(Builds.RawCommit sha1_text) = do
 
-  updateCommentOrFallback
-    access_token
-    owned_repo
-    conn
-    new_pr_head_commit
-    True
-    (CommentRenderCommon.NewPrCommentPayload [[middle_sections]] True True)
-    pr_number
-    previous_pr_comment
+  if isPostingEnabledGlobally
+    then do
+      updateCommentOrFallback
+        access_token
+        owned_repo
+        conn
+        new_pr_head_commit
+        True
+        (CommentRenderCommon.NewPrCommentPayload [[middle_sections]] True True)
+        pr_number
+        previous_pr_comment
 
-  return ()
+      return ()
+    else do
+      return ()
   where
     middle_sections = M.italic $ T.unwords [
         "Commit"

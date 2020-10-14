@@ -25,7 +25,6 @@ import qualified Sql.Read.PullRequests      as ReadPullRequests
 import qualified Sql.Read.Types             as SqlReadTypes
 import qualified Sql.Write                  as SqlWrite
 
-isPostingEnabledGlobally = False
 
 handleCommentPostingOptOut conn access_token pr_number f = do
   pr_author <- fetchAndCachePrAuthor conn access_token pr_number
@@ -33,16 +32,13 @@ handleCommentPostingOptOut conn access_token pr_number f = do
   can_post_comments <- ExceptT $
     ReadPullRequests.canPostPullRequestComments conn pr_author
 
-  if not isPostingEnabledGlobally
-    then ExceptT $ do
-      return $ Right (pr_number, Nothing)
-    else if can_post_comments
-      then f
-      else ExceptT $ do
-        runReaderT (SqlWrite.recordBlockedPRCommentPosting pr_number) $
-          SqlReadTypes.AuthConnection conn pr_author
+  if can_post_comments
+    then f
+    else ExceptT $ do
+      runReaderT (SqlWrite.recordBlockedPRCommentPosting pr_number) $
+        SqlReadTypes.AuthConnection conn pr_author
 
-        return $ Right (pr_number, Nothing)
+      return $ Right (pr_number, Nothing)
 
 
 fetchAndCachePrAuthor ::
