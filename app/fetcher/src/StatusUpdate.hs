@@ -665,7 +665,7 @@ postCommitSummaryStatusInner
     PullRequestUtils.handleCommentPostingOptOut conn access_token pr_number $ do
 
       maybe_comment_revision_id <- case maybe_previous_pr_comment of
-        Nothing -> Just <$> postInitialComment
+        Nothing -> postInitialComment
           access_token
           owned_repo
           conn
@@ -706,7 +706,7 @@ conditionallyPostIfNovelComment
     D.debugStr "New comment would be the same as the last one! Not posting."
     return Nothing
 
-  else Just <$> updateCommentOrFallback
+  else updateCommentOrFallback
     access_token
     owned_repo
     conn
@@ -739,7 +739,7 @@ postInitialComment ::
   -> Bool -- ^ was new push
   -> CommentRenderCommon.PrCommentPayload
   -> Builds.PullRequestNumber
-  -> ExceptT LT.Text IO CommentRenderCommon.CommentRevisionId
+  -> ExceptT LT.Text IO (Maybe CommentRenderCommon.CommentRevisionId)
 postInitialComment
     access_token
     owned_repo
@@ -749,20 +749,24 @@ postInitialComment
     pr_comment_payload
     pr_number = do
 
-  comment_post_result <- ExceptT $ ApiPost.postPullRequestComment
-    access_token
-    owned_repo
-    pr_number
-    pr_comment_text
+  if isPostingEnabledGlobally
+    then do
+      comment_post_result <- ExceptT $ ApiPost.postPullRequestComment
+        access_token
+        owned_repo
+        pr_number
+        pr_comment_text
 
-  liftIO $ SqlWrite.insertPostedGithubComment
-    conn
-    owned_repo
-    sha1
-    pr_number
-    was_new_push
-    pr_comment_payload
-    comment_post_result
+      liftIO $ Just <$> SqlWrite.insertPostedGithubComment
+        conn
+        owned_repo
+        sha1
+        pr_number
+        was_new_push
+        pr_comment_payload
+        comment_post_result
+    else do
+        return Nothing
 
   where
     pr_comment_text = CommentRender.generateCommentMarkdown
@@ -781,7 +785,7 @@ updateCommentOrFallback ::
   -> CommentRenderCommon.PrCommentPayload
   -> Builds.PullRequestNumber
   -> ReadPullRequests.PostedPRComment
-  -> ExceptT LT.Text IO CommentRenderCommon.CommentRevisionId
+  -> ExceptT LT.Text IO (Maybe CommentRenderCommon.CommentRevisionId)
 updateCommentOrFallback
     access_token
     owned_repo
@@ -800,7 +804,7 @@ updateCommentOrFallback
 
   case either_comment_update_result of
     Right comment_update_result ->
-      liftIO $ SqlWrite.modifyPostedGithubComment
+      liftIO $ Just <$> SqlWrite.modifyPostedGithubComment
         conn
         sha1
         was_new_push
