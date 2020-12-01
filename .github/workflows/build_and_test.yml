@@ -17,7 +17,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-haskell@v1.1
+    - uses: actions/setup-haskell@v1.1.4
       with:
         enable-stack: true
         stack-no-global: true
@@ -25,7 +25,7 @@ jobs:
     - if:  matrix.os  == 'macos-latest'
       run: |
         brew install llvm
-        echo "::add-path::/usr/local/opt/llvm/bin"
+        echo "/usr/local/opt/llvm/bin" >> $GITHUB_PATH
 
     # Restore timestamps to help stack not rebuild unchanged files.
     # https://stackoverflow.com/questions/60906336
