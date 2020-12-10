@@ -45,6 +45,9 @@ data SetupData = SetupData {
   }
 
 
+automaticRetriesEnabled :: Bool
+automaticRetriesEnabled = False
+
 parseSqsHeaders :: ScottyTypes.ActionT LT.Text IO SqlWrite.BeanstalkSqsReceiveHeaders
 parseSqsHeaders = do
   maybe_task_name <- S.header "X-Aws-Sqsd-Taskname"
@@ -170,10 +173,15 @@ scottyApp
 
         build_num_tuples <- runReaderT ReadBuilds.getFlakyMasterBuildsToRetry conn
 
-        runExceptT $ CircleTrigger.rebuildCircleJobsInWorkflow
+        if automaticRetriesEnabled
+        then
+         runExceptT $ CircleTrigger.rebuildCircleJobsInWorkflow
           (SqlReadTypes.AuthConnection conn $ AuthStages.Username "")
           (CircleApi.circle_api_token third_party_auth)
           build_num_tuples
+        else do
+          D.debugStr "Automatic retries are disabled"
+          return $ pure []
 
       S.json output
 
