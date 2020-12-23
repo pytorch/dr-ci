@@ -796,38 +796,42 @@ updateCommentOrFallback
     pr_number
     previous_pr_comment = do
 
-  either_comment_update_result <- liftIO $ ApiPost.updatePullRequestComment
-    access_token
-    owned_repo
-    comment_id
-    pr_comment_text
-
-  case either_comment_update_result of
-    Right comment_update_result ->
-      liftIO $ Just <$> SqlWrite.modifyPostedGithubComment
-        conn
-        sha1
-        was_new_push
-        pr_comment_payload
-        comment_update_result
-
-    -- If the comment was deleted, we need to re-post one.
-    Left "Not Found" -> do
-      liftIO $ D.debugStr "Comment was deleted. Posting a new one..."
-
-      -- Mark our database entry as stale
-      liftIO $ SqlWrite.markPostedGithubCommentAsDeleted conn comment_id
-
-      postInitialComment
+  if isPostingEnabledGlobally
+    then do
+      either_comment_update_result <- liftIO $ ApiPost.updatePullRequestComment
         access_token
         owned_repo
-        conn
-        sha1
-        was_new_push
-        pr_comment_payload
-        pr_number
+        comment_id
+        pr_comment_text
 
-    Left other_failure_message -> except $ Left other_failure_message
+      case either_comment_update_result of
+        Right comment_update_result ->
+          liftIO $ Just <$> SqlWrite.modifyPostedGithubComment
+            conn
+            sha1
+            was_new_push
+            pr_comment_payload
+            comment_update_result
+
+        -- If the comment was deleted, we need to re-post one.
+        Left "Not Found" -> do
+          liftIO $ D.debugStr "Comment was deleted. Posting a new one..."
+
+          -- Mark our database entry as stale
+          liftIO $ SqlWrite.markPostedGithubCommentAsDeleted conn comment_id
+
+          postInitialComment
+            access_token
+            owned_repo
+            conn
+            sha1
+            was_new_push
+            pr_comment_payload
+            pr_number
+
+        Left other_failure_message -> except $ Left other_failure_message
+    else do
+      return Nothing
 
   where
     pr_comment_text = CommentRender.generateCommentMarkdown
