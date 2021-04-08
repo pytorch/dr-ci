@@ -27,5 +27,6 @@ extra-deps:
 - amazonka-dynamodb-1.6.1@sha256:6b8852049c65207a7b3741aafa3e4e6c77cfa115e05de3c74868218ae642b6b0,4459
 - amazonka-s3-1.6.1@sha256:9d07240fca59ad5197fb614ce3051e701e4951e6d4625a2dab4a9c17a1900194,6317
 - binary-instances-1.0.0.1@sha256:70c5759ab4f09cf661f68b72b3543872bc32b61095159d2bfcda8d71dce29b7e,2637
+- alfred-margaret-1.1.1.0
 
 allow-newer: true

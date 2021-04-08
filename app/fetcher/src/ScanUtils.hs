@@ -11,6 +11,7 @@ import           Data.List                       (partition)
 import           Data.List.Ordered               (nubSortOn)
 import qualified Data.Maybe                      as Maybe
 import qualified Data.Text.AhoCorasick.Automaton as Aho
+import qualified Data.Text.Utf16                 as U
 import           Data.Traversable                (for)
 --import           Control.Concurrent        (threadDelay)
 import           Data.Array                      ((!))
@@ -251,7 +252,7 @@ scanLogText lines_list patterns = do
     input_pairs = zip [0 ..] $ map LT.stripEnd lines_list
 
     automaton = Aho.build $
-      map (\x -> (Aho.unpackUtf16 $ ScanPatterns.patternText $ ScanPatterns.expression $ DbHelpers.record x, x)) literal_patterns
+      map (\x -> (U.unpackUtf16 $ ScanPatterns.patternText $ ScanPatterns.expression $ DbHelpers.record x, x)) literal_patterns
 
     allMatches = Aho.runText [] $
       \matches match -> Aho.Step (match : matches)
